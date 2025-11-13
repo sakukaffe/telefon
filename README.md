@@ -4,31 +4,52 @@ Eine moderne, skalierbare VoIP-PBX-Lösung, die die Kernfunktionalität von 3CX 
 
 ## Features
 
-### MVP (Aktueller Stand)
-- ✅ Benutzerverwaltung (Users, Extensions)
-- ✅ SIP-Trunks-Verwaltung
-- ✅ REST API für Verwaltung
-- 🚧 SIP-Server-Integration (geplant)
-- 🚧 Anrufsteuerung (geplant)
-- 🚧 WebSocket CTI Events (geplant)
+### ✅ Vollständig implementiert
 
-### Roadmap
-- Warteschlangen & ACD
-- IVR-Menüs
-- Voicemail
-- Aufzeichnungen
-- Konferenzen
-- CRM-Integrationen
-- Reporting & Analytics
+**Kernfunktionen:**
+- ✅ Benutzerverwaltung mit RBAC (Admin, Supervisor, Agent, User)
+- ✅ SIP-Nebenstellen-Verwaltung
+- ✅ SIP-Trunks-Konfiguration
+- ✅ JWT-Authentifizierung & Autorisierung
+- ✅ Anrufverwaltung & -steuerung (Hold, Unhold, Hangup, Transfer)
+- ✅ WebSocket CTI Events (Echtzeit-Benachrichtigungen)
+
+**Erweiterte Features:**
+- ✅ Warteschlangen & ACD (6 Routing-Strategien)
+- ✅ Agent-Statusverwaltung (Available, Busy, Wrap-up, Break, Offline)
+- ✅ IVR-Menüs (Multi-Level, DTMF-Routing)
+- ✅ Voicemail-System (mit E-Mail-Benachrichtigungen)
+- ✅ Anrufaufzeichnung (mit AES-256-Verschlüsselung)
+- ✅ Ein-/Ausgehende Routing-Regeln
+- ✅ CRM-Integration (Salesforce, Zoho, HubSpot, etc.)
+- ✅ Konferenzen (Audio & WebRTC)
+
+**Technische Features:**
+- ✅ REST API für alle Ressourcen
+- ✅ WebSocket-Gateway für Echtzeit-Updates
+- ✅ Datenbank-Migrationen
+- ✅ Docker & Docker Compose Setup
+- ✅ TypeORM mit PostgreSQL
+- ✅ Redis für Caching/Pub-Sub
+- ✅ MinIO/S3 für Aufzeichnungen
+
+### 🚧 In Entwicklung
+- SIP-Server-Integration (Drachtio - Vorbereitet, Implementierung ausstehend)
+- RTPEngine-Integration für Medien-Handling
+- Frontend-Anwendung (Web-UI)
+- Reporting & Analytics-Dashboard
 
 ## Tech Stack
 
-- **Backend:** Node.js 20, NestJS 10, TypeScript
-- **Database:** PostgreSQL 15
-- **Cache:** Redis 7
-- **Storage:** MinIO (S3-kompatibel)
-- **SIP:** Drachtio (geplant)
-- **WebRTC:** Mediasoup (geplant)
+- **Backend:** Node.js 18+, NestJS 10, TypeScript 5
+- **Database:** PostgreSQL 15 mit TypeORM
+- **Cache/Pub-Sub:** Redis 7
+- **Authentifizierung:** JWT mit Passport (Local & JWT Strategies)
+- **WebSocket:** Socket.io für CTI-Events
+- **Storage:** MinIO/S3 für Aufzeichnungen & Voicemail
+- **SIP:** Drachtio-Server (Vorbereitet)
+- **Media:** RTPEngine (Vorbereitet)
+- **Container:** Docker & Docker Compose
 
 ## Schnellstart
 
@@ -74,59 +95,101 @@ Die API ist nun unter `http://localhost:3000/api/v1` erreichbar.
 
 ## API-Endpunkte
 
+### Authentifizierung
+- `POST /api/v1/auth/login` - Login
+- `POST /api/v1/auth/refresh` - Token erneuern
+- `POST /api/v1/auth/logout` - Logout
+- `GET /api/v1/auth/profile` - Profil abrufen
+
 ### Benutzer
+- `GET /api/v1/users` - Alle Benutzer
 - `POST /api/v1/users` - Benutzer erstellen
-- `GET /api/v1/users` - Alle Benutzer abrufen
-- `GET /api/v1/users/:id` - Einzelnen Benutzer abrufen
+- `GET /api/v1/users/:id` - Benutzer-Details
 - `PATCH /api/v1/users/:id` - Benutzer aktualisieren
 - `DELETE /api/v1/users/:id` - Benutzer löschen
 
-### Extensions
-- `POST /api/v1/extensions` - Extension erstellen
-- `GET /api/v1/extensions` - Alle Extensions abrufen
-- `GET /api/v1/extensions/:id` - Einzelne Extension abrufen
-- `GET /api/v1/extensions/:id/registrations` - Registrierungen abrufen
-- `PATCH /api/v1/extensions/:id` - Extension aktualisieren
-- `DELETE /api/v1/extensions/:id` - Extension löschen
+### Nebenstellen (Extensions)
+- `GET /api/v1/extensions` - Alle Nebenstellen
+- `POST /api/v1/extensions` - Nebenstelle erstellen
+- `GET /api/v1/extensions/:id` - Nebenstellen-Details
+- `GET /api/v1/extensions/:id/registrations` - SIP-Registrierungen
+- `PATCH /api/v1/extensions/:id` - Nebenstelle aktualisieren
+- `DELETE /api/v1/extensions/:id` - Nebenstelle löschen
 
 ### Trunks
+- `GET /api/v1/trunks` - Alle Trunks
 - `POST /api/v1/trunks` - Trunk erstellen
-- `GET /api/v1/trunks` - Alle Trunks abrufen
-- `GET /api/v1/trunks/:id` - Einzelnen Trunk abrufen
-- `POST /api/v1/trunks/:id/test` - Trunk-Verbindung testen
+- `GET /api/v1/trunks/:id` - Trunk-Details
 - `PATCH /api/v1/trunks/:id` - Trunk aktualisieren
 - `DELETE /api/v1/trunks/:id` - Trunk löschen
 
-Vollständige API-Dokumentation: `docs/API_BLUEPRINT.md`
+### Anrufe
+- `GET /api/v1/calls` - Aktive Anrufe
+- `GET /api/v1/calls/:id` - Anruf-Details
+- `PUT /api/v1/calls/:id/hold` - Halten
+- `PUT /api/v1/calls/:id/unhold` - Fortsetzen
+- `PUT /api/v1/calls/:id/hangup` - Auflegen
+
+### Warteschlangen
+- `GET /api/v1/queues` - Alle Warteschlangen
+- `POST /api/v1/queues` - Warteschlange erstellen
+- `POST /api/v1/queues/:id/login` - Agent anmelden
+- `POST /api/v1/queues/:id/logout` - Agent abmelden
+- `PUT /api/v1/agents/:extensionId/state` - Agent-Status ändern
+
+### IVR
+- `GET /api/v1/ivr` - Alle IVR-Menüs
+- `POST /api/v1/ivr` - IVR-Menü erstellen
+
+### Voicemail
+- `GET /api/v1/voicemail/boxes` - Voicemail-Boxen
+- `GET /api/v1/voicemail/messages` - Nachrichten
+
+### Aufzeichnungen
+- `GET /api/v1/recordings` - Alle Aufzeichnungen
+- `GET /api/v1/recordings/:id/download` - Herunterladen
+
+### CRM
+- `GET /api/v1/crm` - CRM-Integrationen
+- `POST /api/v1/crm` - Integration erstellen
+
+### Konferenzen
+- `GET /api/v1/conferences` - Alle Konferenzen
+- `POST /api/v1/conferences` - Konferenz erstellen
+
+**Vollständige Dokumentation:**
+- 📖 `DOKUMENTATION.md` - Komplette System-Dokumentation
+- 🚀 `INSTALLATION.md` - Detaillierte Installationsanleitung
 
 ## Projektstruktur
 
 ```
 telefon/
-├── docs/                       # Dokumentation
-│   ├── SYSTEM_DESIGN.md       # System-Architektur
-│   ├── DATABASE_SCHEMA.md     # Datenbankschema
-│   ├── API_BLUEPRINT.md       # REST API Spezifikation
-│   └── EVENT_SCHEMA.md        # WebSocket Events
+├── DOKUMENTATION.md           # 📖 Komplette System-Dokumentation (Deutsch)
+├── INSTALLATION.md            # 🚀 Installationsanleitung (Deutsch)
 ├── src/
 │   ├── modules/               # Feature-Module
+│   │   ├── auth/             # Authentifizierung (JWT, Passport)
 │   │   ├── users/            # Benutzerverwaltung
-│   │   ├── extensions/       # Nebenstellen
-│   │   ├── trunks/          # SIP-Trunks
-│   │   ├── calls/           # Anrufsteuerung
-│   │   ├── queues/          # Warteschlangen
-│   │   └── ...              # Weitere Module
-│   ├── common/              # Gemeinsame Utilities
-│   │   ├── entities/        # Basis-Entities
-│   │   ├── dto/            # Data Transfer Objects
-│   │   └── ...
-│   ├── config/             # Konfiguration
-│   ├── app.module.ts       # Haupt-App-Modul
-│   └── main.ts             # Entry Point
-├── docker-compose.yml      # Docker-Setup
-├── Dockerfile             # Docker-Image
-└── package.json           # Dependencies
-
+│   │   ├── extensions/       # Nebenstellen & Registrierungen
+│   │   ├── trunks/           # SIP-Trunks & Routing-Regeln
+│   │   ├── calls/            # Anrufverwaltung & -steuerung
+│   │   ├── queues/           # Warteschlangen & ACD
+│   │   ├── ivr/              # IVR-Menüs
+│   │   ├── voicemail/        # Voicemail-System
+│   │   ├── recordings/       # Anrufaufzeichnungen
+│   │   ├── crm/              # CRM-Integrationen
+│   │   ├── conferences/      # Konferenzen
+│   │   ├── websocket/        # WebSocket-Gateway (CTI)
+│   │   └── sip/              # SIP-Server-Integration
+│   ├── migrations/           # Datenbank-Migrationen
+│   ├── config/               # Konfiguration (TypeORM, etc.)
+│   ├── app.module.ts         # Haupt-App-Modul
+│   └── main.ts               # Entry Point
+├── docker-compose.yml        # Docker-Setup (PostgreSQL, Redis, MinIO)
+├── Dockerfile                # Production Docker-Image
+├── .env.example              # Umgebungsvariablen-Vorlage
+└── package.json              # Dependencies & Scripts
 ```
 
 ## Entwicklung
@@ -161,12 +224,39 @@ npm run migration:run
 npm run migration:revert
 ```
 
+## WebSocket CTI Events
+
+PBX-X bietet Echtzeit-Events über WebSocket:
+
+```javascript
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:3000/ws', {
+  auth: { token: 'YOUR_JWT_TOKEN' }
+});
+
+// Subscribe zu Channels
+socket.emit('subscribe', { channels: ['calls', 'agents', 'queues'] });
+
+// Anruf-Events empfangen
+socket.on('CALL_CREATED', (data) => console.log('Neuer Anruf:', data));
+socket.on('CALL_RINGING', (data) => console.log('Klingelt:', data));
+socket.on('CALL_ANSWERED', (data) => console.log('Beantwortet:', data));
+socket.on('CALL_ENDED', (data) => console.log('Beendet:', data));
+
+// Agent-Events
+socket.on('AGENT_STATE_CHANGED', (data) => console.log('Agent-Status:', data));
+```
+
+Siehe `DOKUMENTATION.md` für alle verfügbaren Events.
+
 ## Docker-Services
 
 - **PostgreSQL:** `localhost:5432`
 - **Redis:** `localhost:6379`
 - **MinIO:** `localhost:9000` (API), `localhost:9001` (Console)
-- **PBX-X API:** `localhost:3000`
+- **PBX-X API:** `localhost:3000/api/v1`
+- **WebSocket:** `ws://localhost:3000/ws`
 
 ## Lizenz
 

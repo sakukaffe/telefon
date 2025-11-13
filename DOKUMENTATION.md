@@ -157,6 +157,64 @@ PBX-X ist eine moderne, vollständig funktionale VoIP-TK-Anlage (Telefonanlage),
   - Präsenz-Updates
 - JWT-Authentifizierung für WebSocket-Verbindungen
 
+### 13. SIP-Server-Integration (Drachtio)
+- Vollständige SIP-Protokoll-Implementierung
+- REGISTER-Handling mit Digest-Authentifizierung
+- INVITE/ACK/BYE für Anrufaufbau und -abbau
+- REFER für Call-Transfer
+- OPTIONS für Keep-Alive
+- Automatische Registrierungs-Verwaltung
+- B2BUA-Architektur für interne Anrufe
+
+### 14. Media-Handling (RTPEngine)
+- RTP/RTCP-Proxying
+- Codec-Transcoding (optional)
+- Anrufaufzeichnung-Integration
+- NAT-Traversal
+- DTMF-Detection
+- Call-Statistiken (Packet Loss, Jitter, Latency)
+- Media-Encryption (SRTP)
+
+### 15. Reporting & Analytics
+- **Dashboard-Statistiken**:
+  - Echtzeit-Anrufzahlen
+  - Extension-Status
+  - Queue-Metriken
+  - System-Health
+- **Call-Reports (CDR)**:
+  - Zeitbasierte Reports
+  - Nach Richtung (inbound/outbound/internal)
+  - Top Caller & Destinations
+  - Stündliche Verteilung
+- **Queue-Performance-Reports**:
+  - Service-Level-Achievement
+  - Durchschnittliche Wartezeit
+  - Agent-Performance
+  - Abandoned Calls
+- **Trend-Analyse**:
+  - Stündlich, täglich, wöchentlich
+  - Anrufvolumen-Trends
+  - Answer/Miss-Rate-Trends
+- **CDR-Export**:
+  - CSV und JSON-Format
+  - Filterbar nach Zeitraum
+  - Vollständige Call-Details
+
+### 16. Frontend-Anwendung
+- **React 18** mit TypeScript
+- **Responsive Design** mit TailwindCSS
+- **Echtzeit-Updates** via WebSocket
+- **Hauptfunktionen**:
+  - Dashboard mit Live-Statistiken
+  - Extension-Verwaltung
+  - Live-Anrufmonitor
+  - Queue-Management
+  - Agent-Panel
+  - IVR-Editor
+  - Voicemail-Verwaltung
+  - Reporting-Dashboard
+  - Benutzer-Administration
+
 ## Module
 
 ### Auth-Modul (`src/modules/auth`)

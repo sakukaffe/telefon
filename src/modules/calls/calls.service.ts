@@ -116,6 +116,15 @@ export class CallsService {
     return call;
   }
 
+  async findByCallId(callId: string): Promise<Call | null> {
+    const call = await this.callRepository.findOne({
+      where: { callId },
+      relations: ['callerExtension', 'calleeExtension', 'trunk'],
+    });
+
+    return call;
+  }
+
   async findAll(params: {
     page?: number;
     limit?: number;

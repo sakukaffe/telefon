@@ -33,11 +33,13 @@ Eine moderne, skalierbare VoIP-PBX-Lösung, die die Kernfunktionalität von 3CX 
 - ✅ Redis für Caching/Pub-Sub
 - ✅ MinIO/S3 für Aufzeichnungen
 
-### 🚧 In Entwicklung
-- SIP-Server-Integration (Drachtio - Vorbereitet, Implementierung ausstehend)
-- RTPEngine-Integration für Medien-Handling
-- Frontend-Anwendung (Web-UI)
-- Reporting & Analytics-Dashboard
+### ✅ Produktionsbereit
+
+Alle Kernfunktionen sind vollständig implementiert:
+- ✅ **SIP-Server-Integration**: Vollständige Drachtio-Integration mit REGISTER, INVITE, BYE, REFER
+- ✅ **RTPEngine-Integration**: Media-Proxying, Recording-Support, Call-Statistics
+- ✅ **Frontend-Anwendung**: React-basiertes Web-Interface (siehe `frontend/`)
+- ✅ **Reporting & Analytics**: Dashboard, Call-Reports, Queue-Reports, CDR-Export
 
 ## Tech Stack
 
@@ -157,9 +159,17 @@ Die API ist nun unter `http://localhost:3000/api/v1` erreichbar.
 - `GET /api/v1/conferences` - Alle Konferenzen
 - `POST /api/v1/conferences` - Konferenz erstellen
 
+### Reports & Analytics
+- `GET /api/v1/reports/dashboard` - Dashboard-Statistiken
+- `GET /api/v1/reports/calls` - Call-Reports
+- `GET /api/v1/reports/queues/:id` - Queue-Performance-Reports
+- `GET /api/v1/reports/trends` - Call-Trends
+- `GET /api/v1/reports/cdr/export` - CDR-Export (CSV/JSON)
+
 **Vollständige Dokumentation:**
 - 📖 `DOKUMENTATION.md` - Komplette System-Dokumentation
 - 🚀 `INSTALLATION.md` - Detaillierte Installationsanleitung
+- 🎨 `frontend/README.md` - Frontend-Dokumentation
 
 ## Projektstruktur
 

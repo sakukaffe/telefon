@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CrmIntegration } from './entities/crm-integration.entity';
 
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([CrmIntegration])],
   controllers: [],
   providers: [],
   exports: [],

@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BullModule } from '@nestjs/bull';
+import { APP_GUARD } from '@nestjs/core';
 
 // Modules
 import { AuthModule } from './modules/auth/auth.module';
@@ -18,6 +19,8 @@ import { ConferencesModule } from './modules/conferences/conferences.module';
 import { ReportsModule } from './modules/reports/reports.module';
 import { CrmModule } from './modules/crm/crm.module';
 import { SipModule } from './modules/sip/sip.module';
+import { WebsocketModule } from './modules/websocket/websocket.module';
+import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -77,6 +80,13 @@ import { SipModule } from './modules/sip/sip.module';
     ReportsModule,
     CrmModule,
     SipModule,
+    WebsocketModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
   ],
 })
 export class AppModule {}

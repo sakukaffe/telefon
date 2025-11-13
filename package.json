@@ -48,6 +48,7 @@
     "uuid": "^9.0.1",
     "socket.io": "^4.6.1",
     "drachtio-srf": "^4.5.1",
+    "rtpengine-client": "^0.3.0",
     "sdp-transform": "^2.14.2",
     "axios": "^1.6.5",
     "winston": "^3.11.0",
